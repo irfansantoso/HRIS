@@ -193,7 +193,38 @@
                 { data: 'employee_number', name: 'employee_number' },
                 { data: 'siteName', name: 'siteName' },
                 { data: 'deptName', name: 'deptName' },
-                { data: 'employee_name', name: 'employee_name' },
+                {
+                    data: 'employee_name',
+                    render: function ( data, type, row, meta ) {
+                    let actionHtml = '<div class="d-inline-block">' +
+                                        `<span class="dropdown-toggle hide-arrow" data-bs-toggle="dropdown">${data}</span>` +
+                                        '<ul class="dropdown-menu dropdown-menu-end m-0">';
+                        // Conditionally edit option based on information_status
+                        if (row.information_status === 'active') {    
+                            actionHtml +=`<li><a href="{{ url('employeeHris/edit/${row.id_employee}') }}" class="dropdown-item text-primary">Edit</a></li>`;
+                        }
+                            actionHtml +=`<li><a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalRenewal" data-id_em="${row.id_employee}" data-nik="${row.nik}" data-nm_em="${row.employee_name}" data-s_contract="${row.start_contract}" data-e_contract="${row.end_contract}" data-dur_contract="${row.duration_contract}" class="dropdown-item text-success ren_emp">Renewal</a></li>`;
+
+                        // Conditionally delete option based on information_status
+                        if (row.information_status === 'active') {
+                            actionHtml += '<div class="dropdown-divider"></div>' +
+                                        `<li><a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalDelete" data-id_em="${row.id_employee}" data-nm_em="${row.employee_name}" class="dropdown-item text-danger del_emp">Delete</a></li>`;
+                        }
+                        actionHtml += '<div class="dropdown-divider"></div>' +
+                                        `<li><a href="{{ url('employeeHris/detail/${row.nik}') }}" title="Detail"
+                                        data-bs-target="" class="dropdown-item">Detail</a></li>`;          
+
+                                     
+
+                        actionHtml += '</ul>' +
+                                    '</div>';
+
+                        return actionHtml;
+                    },
+                    orderable: true, searchable: true
+                },
                 { data: 'nik', name: 'nik' },
                 { data: 'bpjs_tk', name: 'bpjs_tk' },
                 { data: 'bpjs_kes', name: 'bpjs_kes' },
@@ -281,39 +312,6 @@
         $('#employee_name_z').text(nm_em);                
     });
 
-    // $(document).ready(function() {
-    //   $('#start_contract_x, #end_contract_x').on('keyup', function() {
-    //     const start_contract = $('#start_contract_x').val();
-    //     const end_contract = $('#end_contract_x').val();
-    //     const duration_contract = $('#duration_contract_x');
-
-    //     if (start_contract && end_contract) {
-    //       const startDate = new Date(start_contract);
-    //       const endDate = new Date(end_contract);
-
-    //       if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-    //         const diffYears = endDate.getFullYear() - startDate.getFullYear();
-    //         const diffMonths = endDate.getMonth() - startDate.getMonth();
-    //         const diffDays = endDate.getDate() - startDate.getDate();
-
-    //         let months = diffYears * 12 + diffMonths;
-
-    //         // Correct the month difference if end day is less than start day
-    //         if (diffDays < 0) {
-    //           months--;
-    //         }
-
-    //         // Ensure at least one full month difference if days are exactly one year apart
-    //         if (months === 0 && diffDays < 0) {
-    //           months = 12;
-    //         }
-
-    //         duration_contract.val(months);
-    //       } else {
-    //         duration_contract.val("Invalid Date");
-    //       }
-    //     }
-    //   });
-    // });
+    
     </script> 
  @stop

@@ -133,6 +133,7 @@
                     <option value="K3" {{ old('status_marital', isset($employee) ? $employee->status_marital : '') == 'K3' ? 'selected' : '' }}>K3</option>
                     <option value="K4" {{ old('status_marital', isset($employee) ? $employee->status_marital : '') == 'K4' ? 'selected' : '' }}>K4</option>
                     <option value="Janda" {{ old('status_marital', isset($employee) ? $employee->status_marital : '') == 'Janda' ? 'selected' : '' }}>Janda</option>
+                    <option value="Duda" {{ old('status_marital', isset($employee) ? $employee->status_marital : '') == 'Duda' ? 'selected' : '' }}>Duda</option>
                   </select>
                 </div>
               </div>
